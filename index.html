@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Will You Be My Valentine?</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Floating hearts background -->
+  <div class="hearts-bg" id="heartsBg"></div>
+
+  <!-- Envelope intro screen -->
+  <section id="envelope-screen" class="screen active">
+    <div class="envelope-wrapper">
+      <p class="tap-hint">Tap the envelope</p>
+      <div class="envelope" id="envelope">
+        <div class="envelope-top"></div>
+        <div class="envelope-body">
+          <div class="heart-seal">&hearts;</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Letter / invitation screen -->
+  <section id="letter-screen" class="screen">
+    <div class="letter">
+      <div class="letter-header">
+        <span class="letter-heart">&hearts;</span>
+        <h1>You're Invited</h1>
+        <span class="letter-heart">&hearts;</span>
+      </div>
+      <p class="letter-body">
+        Every moment with you feels like a beautiful dream I never want to wake up from.
+        You make my world brighter, warmer, and infinitely more wonderful.
+      </p>
+      <p class="letter-body">
+        So I have one very important question&hellip;
+      </p>
+      <button class="continue-btn" id="continueBtn">Continue &rarr;</button>
+    </div>
+  </section>
+
+  <!-- Question screen -->
+  <section id="question-screen" class="screen">
+    <h2 class="question-text">Will You Be My Valentine? <span class="q-heart">&hearts;</span></h2>
+    <div class="btn-row">
+      <button class="answer-btn yes-btn" id="yesBtn">Yes!</button>
+      <button class="answer-btn no-btn" id="noBtn">No</button>
+    </div>
+  </section>
+
+  <!-- Celebration screen -->
+  <section id="celebrate-screen" class="screen">
+    <div class="celebrate-content">
+      <div class="big-heart" id="bigHeart">&hearts;</div>
+      <h2 class="celebrate-title">Yay! You made me the happiest person!</h2>
+      <p class="celebrate-sub">I can't wait to spend Valentine's Day with you &hearts;</p>
+      <div class="fireworks" id="fireworks"></div>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
