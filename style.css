@@ -33,105 +33,97 @@ html, body {
   pointer-events: auto;
 }
 
-/* ── Floating hearts background ───────────────────────── */
-.hearts-bg {
+/* ── Waldo / Search scene ─────────────────────────────── */
+.hint-bar {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(6px);
+  padding: 10px 28px;
+  border-radius: 50px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: hintPulse 2.5s ease-in-out infinite;
+}
+.hint-icon {
+  font-size: 1.3rem;
+}
+.hint-text {
+  font-size: 1rem;
+  color: #c2185b;
+  font-weight: bold;
+  letter-spacing: 0.3px;
+}
+@keyframes hintPulse {
+  0%, 100% { box-shadow: 0 4px 20px rgba(233,30,99,0.15); }
+  50% { box-shadow: 0 4px 30px rgba(233,30,99,0.35); }
+}
+
+.scene-container {
   position: fixed;
   inset: 0;
-  pointer-events: none;
-  z-index: 0;
   overflow: hidden;
+  cursor: crosshair;
 }
-.floating-heart {
+
+/* Scene items (emoji clutter) */
+.scene-item {
   position: absolute;
-  bottom: -60px;
-  font-size: 24px;
-  color: rgba(255, 255, 255, 0.5);
-  animation: floatUp linear infinite;
   user-select: none;
-}
-@keyframes floatUp {
-  0% {
-    transform: translateY(0) rotate(0deg) scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-110vh) rotate(360deg) scale(0.5);
-    opacity: 0;
-  }
+  pointer-events: none;
+  line-height: 1;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.08));
 }
 
-/* ── Envelope screen ──────────────────────────────────── */
-.envelope-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
+/* Pandas that wander around */
+.scene-panda {
+  position: absolute;
+  user-select: none;
+  pointer-events: none;
+  line-height: 1;
+  z-index: 5;
+  animation: pandaWobble 3s ease-in-out infinite alternate;
+}
+@keyframes pandaWobble {
+  0% { transform: translateY(0) rotate(-5deg); }
+  50% { transform: translateY(-12px) rotate(3deg); }
+  100% { transform: translateY(-4px) rotate(-3deg); }
 }
 
-.tap-hint {
-  font-size: 1.1rem;
-  color: #fff;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.15);
-  animation: pulse 2s ease-in-out infinite;
-}
-@keyframes pulse {
-  0%, 100% { opacity: 0.6; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.05); }
-}
-
-.envelope {
-  position: relative;
-  width: 260px;
-  height: 180px;
+/* Hidden letter blending into the scene */
+.hidden-letter {
+  position: absolute;
+  user-select: none;
+  pointer-events: auto;
   cursor: pointer;
-  transition: transform 0.3s ease;
+  z-index: 6;
+  font-size: 22px;
+  line-height: 1;
+  transition: transform 0.15s ease;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.08));
 }
-.envelope:hover {
-  transform: scale(1.05);
-}
-
-.envelope-body {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 140px;
-  background: #fff;
-  border-radius: 0 0 12px 12px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.heart-seal {
-  font-size: 48px;
-  color: #e91e63;
-  animation: heartbeat 1.2s ease-in-out infinite;
-}
-@keyframes heartbeat {
-  0%, 100% { transform: scale(1); }
-  15% { transform: scale(1.15); }
-  30% { transform: scale(1); }
-  45% { transform: scale(1.1); }
+.hidden-letter:hover {
+  transform: scale(1.3);
+  filter: drop-shadow(0 0 12px rgba(233,30,99,0.7));
 }
 
-.envelope-top {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 0;
-  height: 0;
-  border-left: 130px solid transparent;
-  border-right: 130px solid transparent;
-  border-top: 100px solid #f3e5f5;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.08));
-  z-index: 2;
-  transition: transform 0.6s ease, opacity 0.4s ease;
-  transform-origin: top center;
-}
-
-.envelope.opened .envelope-top {
-  transform: rotateX(180deg);
+/* Found flash overlay */
+.found-flash {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(248,187,208,0.6) 100%);
+  z-index: 200;
   opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.found-flash.active {
+  opacity: 1;
 }
 
 /* ── Letter screen ────────────────────────────────────── */
@@ -139,11 +131,12 @@ html, body {
   background: #fffbf0;
   border-radius: 16px;
   padding: 48px 36px;
-  max-width: 480px;
+  max-width: 520px;
   width: 90%;
   box-shadow: 0 12px 40px rgba(0,0,0,0.12);
   text-align: center;
   animation: slideUp 0.8s ease-out;
+  border: 2px solid #f8bbd0;
 }
 @keyframes slideUp {
   from { transform: translateY(60px); opacity: 0; }
@@ -155,27 +148,51 @@ html, body {
   align-items: center;
   justify-content: center;
   gap: 12px;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 .letter-header h1 {
-  font-size: 2rem;
+  font-size: 1.8rem;
   color: #c2185b;
+  font-style: italic;
 }
 .letter-heart {
   font-size: 1.6rem;
   color: #e91e63;
   animation: heartbeat 1.2s ease-in-out infinite;
 }
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  15% { transform: scale(1.15); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.1); }
+}
+
+.letter-greeting {
+  font-size: 1.25rem;
+  font-style: italic;
+  color: #ad1457;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
 
 .letter-body {
-  font-size: 1.1rem;
-  line-height: 1.8;
-  margin-bottom: 18px;
+  font-size: 1.05rem;
+  line-height: 1.85;
+  margin-bottom: 16px;
   color: #5d3a4a;
 }
 
+.letter-signature {
+  font-size: 1.15rem;
+  font-style: italic;
+  color: #c2185b;
+  margin-top: 16px;
+  margin-bottom: 24px;
+  font-weight: bold;
+}
+
 .continue-btn {
-  margin-top: 20px;
+  margin-top: 12px;
   padding: 14px 40px;
   font-size: 1.1rem;
   font-family: inherit;
@@ -303,6 +320,9 @@ html, body {
   .letter {
     padding: 32px 20px;
   }
+  .letter-header h1 {
+    font-size: 1.4rem;
+  }
   .question-text {
     font-size: 1.6rem;
   }
@@ -312,16 +332,10 @@ html, body {
   .big-heart {
     font-size: 72px;
   }
-  .envelope {
-    width: 220px;
-    height: 160px;
+  .hint-bar {
+    padding: 8px 18px;
   }
-  .envelope-body {
-    height: 120px;
-  }
-  .envelope-top {
-    border-left-width: 110px;
-    border-right-width: 110px;
-    border-top-width: 90px;
+  .hint-text {
+    font-size: 0.85rem;
   }
 }

@@ -1,11 +1,12 @@
 // ── Screens ──────────────────────────────────────────────
-const envelopeScreen = document.getElementById('envelope-screen');
+const waldoScreen = document.getElementById('waldo-screen');
 const letterScreen = document.getElementById('letter-screen');
 const questionScreen = document.getElementById('question-screen');
 const celebrateScreen = document.getElementById('celebrate-screen');
 
 // ── Elements ─────────────────────────────────────────────
-const envelope = document.getElementById('envelope');
+const sceneContainer = document.getElementById('sceneContainer');
+const foundFlash = document.getElementById('foundFlash');
 const continueBtn = document.getElementById('continueBtn');
 const yesBtn = document.getElementById('yesBtn');
 const noBtn = document.getElementById('noBtn');
@@ -16,26 +17,77 @@ function showScreen(screen) {
   screen.classList.add('active');
 }
 
-// ── Floating hearts background ───────────────────────────
-function spawnFloatingHeart() {
-  const container = document.getElementById('heartsBg');
-  const heart = document.createElement('span');
-  heart.classList.add('floating-heart');
-  heart.textContent = ['♥', '♡', '❤'][Math.floor(Math.random() * 3)];
-  heart.style.left = Math.random() * 100 + '%';
-  heart.style.fontSize = (16 + Math.random() * 24) + 'px';
-  const duration = 6 + Math.random() * 8;
-  heart.style.animationDuration = duration + 's';
-  heart.style.opacity = 0.3 + Math.random() * 0.4;
-  container.appendChild(heart);
-  setTimeout(() => heart.remove(), duration * 1000);
+function rand(min, max) {
+  return min + Math.random() * (max - min);
 }
-setInterval(spawnFloatingHeart, 400);
 
-// ── Envelope click ───────────────────────────────────────
-envelope.addEventListener('click', () => {
-  envelope.classList.add('opened');
-  setTimeout(() => showScreen(letterScreen), 800);
+// ── Build the busy Valentine scene ───────────────────────
+// Clutter emojis — lots of Valentine-themed items
+const clutterEmojis = [
+  '❤️','💕','💖','💗','💘','💝','💞','💓','💟',
+  '🌹','🌸','🌺','🌷','🌻','🍫','🍬','🍭','🎀',
+  '🎁','💐','🧸','🎈','🎉','🎊','✨','⭐','🦋',
+  '🐝','🐞','🌈','☁️','🍰','🧁','🍪','🍩','🎵',
+  '🎶','🕊️','👑','💎','🔔','🕯️','🥂','💄',
+  '👠','🎭','🏹','💫','🪄','🫧','🩷'
+];
+
+// Panda + heart combos for the wandering pandas
+const pandaCombos = ['🐼💕','🐼❤️','🐼💖','🐼💗','🐼🩷'];
+
+const W = window.innerWidth;
+const H = window.innerHeight;
+
+// Place a grid of random clutter to fill the screen densely
+const ITEM_COUNT = 200;
+
+for (let i = 0; i < ITEM_COUNT; i++) {
+  const el = document.createElement('span');
+  el.className = 'scene-item';
+  el.textContent = clutterEmojis[Math.floor(Math.random() * clutterEmojis.length)];
+  el.style.left = rand(2, 96) + '%';
+  el.style.top = rand(5, 95) + '%';
+  el.style.fontSize = rand(16, 42) + 'px';
+  el.style.opacity = rand(0.45, 1);
+  el.style.transform = `rotate(${rand(-30, 30)}deg)`;
+  // slight random animation delay for liveliness
+  el.style.animation = `pandaWobble ${rand(2.5, 5)}s ease-in-out ${rand(0, 2)}s infinite alternate`;
+  sceneContainer.appendChild(el);
+}
+
+// Add a handful of pandas with hearts scattered in the scene
+const PANDA_COUNT = 12;
+for (let i = 0; i < PANDA_COUNT; i++) {
+  const p = document.createElement('span');
+  p.className = 'scene-panda';
+  p.textContent = pandaCombos[Math.floor(Math.random() * pandaCombos.length)];
+  p.style.left = rand(5, 90) + '%';
+  p.style.top = rand(10, 88) + '%';
+  p.style.fontSize = rand(24, 40) + 'px';
+  p.style.animationDelay = rand(0, 3) + 's';
+  p.style.animationDuration = rand(2.5, 4.5) + 's';
+  sceneContainer.appendChild(p);
+}
+
+// ── Place the hidden letter ──────────────────────────────
+// The letter should look like just another clutter item — a small envelope
+const hiddenLetter = document.createElement('span');
+hiddenLetter.className = 'hidden-letter';
+hiddenLetter.textContent = '✉️';
+// Random but not too close to edges or the hint bar
+hiddenLetter.style.left = rand(10, 85) + '%';
+hiddenLetter.style.top = rand(20, 85) + '%';
+hiddenLetter.style.transform = `rotate(${rand(-20, 20)}deg)`;
+sceneContainer.appendChild(hiddenLetter);
+
+// ── Hidden letter click → open invitation ────────────────
+hiddenLetter.addEventListener('click', () => {
+  // Flash effect
+  foundFlash.classList.add('active');
+  setTimeout(() => {
+    showScreen(letterScreen);
+    foundFlash.classList.remove('active');
+  }, 600);
 });
 
 // ── Continue to question ─────────────────────────────────
