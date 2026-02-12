@@ -28,7 +28,7 @@ const clutterEmojis = [
   '🌹','🌸','🌺','🌷','🌻','🍫','🍬','🍭','🎀',
   '🎁','💐','🧸','🎈','🎉','🎊','✨','⭐','🦋',
   '🐝','🐞','🌈','☁️','🍰','🧁','🍪','🍩','🎵',
-  '🎶','💌','🕊️','👑','💎','🔔','🕯️','🥂','💄',
+  '🎶','🕊️','👑','💎','🔔','🕯️','🥂','💄',
   '👠','🎭','🏹','💫','🪄','🫧','🩷'
 ];
 
@@ -73,7 +73,7 @@ for (let i = 0; i < PANDA_COUNT; i++) {
 // The letter should look like just another clutter item — a small envelope
 const hiddenLetter = document.createElement('span');
 hiddenLetter.className = 'hidden-letter';
-hiddenLetter.textContent = '💌';
+hiddenLetter.textContent = '✉️';
 // Random but not too close to edges or the hint bar
 hiddenLetter.style.left = rand(10, 85) + '%';
 hiddenLetter.style.top = rand(20, 85) + '%';
