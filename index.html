@@ -7,38 +7,44 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Floating hearts background -->
-  <div class="hearts-bg" id="heartsBg"></div>
-
-  <!-- Envelope intro screen -->
-  <section id="envelope-screen" class="screen active">
-    <div class="envelope-wrapper">
-      <p class="tap-hint">Tap the envelope</p>
-      <div class="envelope" id="envelope">
-        <div class="envelope-top"></div>
-        <div class="envelope-body">
-          <div class="heart-seal">&hearts;</div>
-        </div>
-      </div>
+  <!-- Where's Waldo Valentine scene -->
+  <section id="waldo-screen" class="screen active">
+    <div class="hint-bar">
+      <span class="hint-icon">🔍</span>
+      <span class="hint-text">Find the hidden love letter...</span>
+    </div>
+    <div class="scene-container" id="sceneContainer">
+      <!-- All the busy scene items + hidden letter are injected by JS -->
     </div>
   </section>
+
+  <!-- Found it! Sparkle transition -->
+  <div class="found-flash" id="foundFlash"></div>
 
   <!-- Letter / invitation screen -->
   <section id="letter-screen" class="screen">
     <div class="letter">
       <div class="letter-header">
         <span class="letter-heart">&hearts;</span>
-        <h1>You're Invited</h1>
+        <h1>A Formal Invitation</h1>
         <span class="letter-heart">&hearts;</span>
       </div>
+      <p class="letter-greeting">Dearest Cellouni,</p>
       <p class="letter-body">
-        Every moment with you feels like a beautiful dream I never want to wake up from.
-        You make my world brighter, warmer, and infinitely more wonderful.
+        You are hereby cordially and most tenderly invited
+        to be the Valentine of the one who adores you beyond all measure.
       </p>
       <p class="letter-body">
-        So I have one very important question&hellip;
+        Your smile is the only sunrise I ever need,
+        your laughter the sweetest melody I have ever known,
+        and your presence the greatest gift life has ever granted me.
       </p>
-      <button class="continue-btn" id="continueBtn">Continue &rarr;</button>
+      <p class="letter-body">
+        It would be the highest honour and the deepest joy
+        if you would accept this humble invitation&hellip;
+      </p>
+      <p class="letter-signature">Forever yours &hearts;</p>
+      <button class="continue-btn" id="continueBtn">Open the Question &rarr;</button>
     </div>
   </section>
 
@@ -56,7 +62,7 @@
     <div class="celebrate-content">
       <div class="big-heart" id="bigHeart">&hearts;</div>
       <h2 class="celebrate-title">Yay! You made me the happiest person!</h2>
-      <p class="celebrate-sub">I can't wait to spend Valentine's Day with you &hearts;</p>
+      <p class="celebrate-sub">I can&rsquo;t wait to spend Valentine&rsquo;s Day with you &hearts;</p>
       <div class="fireworks" id="fireworks"></div>
     </div>
   </section>
